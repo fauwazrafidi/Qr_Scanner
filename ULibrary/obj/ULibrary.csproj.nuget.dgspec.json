@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Source\\Repos\\Qr_Scanner\\ULibrary\\ULibrary.csproj": {}
+    "C:\\Users\\User\\source\\repos\\Qr_Scanner\\ULibrary\\ULibrary.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Source\\Repos\\Qr_Scanner\\ULibrary\\ULibrary.csproj": {
+    "C:\\Users\\User\\source\\repos\\Qr_Scanner\\ULibrary\\ULibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Source\\Repos\\Qr_Scanner\\ULibrary\\ULibrary.csproj",
+        "projectUniqueName": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\ULibrary\\ULibrary.csproj",
         "projectName": "ULibrary",
-        "projectPath": "C:\\Users\\User\\Source\\Repos\\Qr_Scanner\\ULibrary\\ULibrary.csproj",
+        "projectPath": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\ULibrary\\ULibrary.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Source\\Repos\\Qr_Scanner\\ULibrary\\obj\\",
+        "outputPath": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\ULibrary\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
