@@ -20,3 +20,12 @@ C:\Users\User\Desktop\C# Course\Xamarin_ScannerForAndroid\ULibrary\obj\Debug\cla
 C:\Users\User\Desktop\C# Course\Xamarin_ScannerForAndroid\ULibrary\obj\Debug\ULibrary.csproj.CoreCompileInputs.cache
 C:\Users\User\Desktop\C# Course\Xamarin_ScannerForAndroid\ULibrary\obj\Debug\ULibrary.dll
 C:\Users\User\Desktop\C# Course\Xamarin_ScannerForAndroid\ULibrary\obj\Debug\ULibrary.pdb
+C:\Users\User\source\repos\Qr_Scanner\ULibrary\bin\Debug\ULibrary.dll
+C:\Users\User\source\repos\Qr_Scanner\ULibrary\bin\Debug\ULibrary.pdb
+C:\Users\User\source\repos\Qr_Scanner\ULibrary\obj\Debug\MonoAndroid,Version=v9.0.AssemblyAttributes.cs
+C:\Users\User\source\repos\Qr_Scanner\ULibrary\obj\Debug\ULibrary.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\Qr_Scanner\ULibrary\obj\Debug\stamp\_BuildLibraryImportsCache.stamp
+C:\Users\User\source\repos\Qr_Scanner\ULibrary\obj\Debug\class-parse.rsp
+C:\Users\User\source\repos\Qr_Scanner\ULibrary\obj\Debug\ULibrary.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Qr_Scanner\ULibrary\obj\Debug\ULibrary.dll
+C:\Users\User\source\repos\Qr_Scanner\ULibrary\obj\Debug\ULibrary.pdb

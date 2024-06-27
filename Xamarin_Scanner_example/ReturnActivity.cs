@@ -19,13 +19,14 @@ namespace Xamarin_Scanner_example
     [Activity(Label = "Return")]
     public class ReturnActivity : AppCompatActivity
     {
-        Spinner spinnerFrom, spinnerTo;
+        Spinner spinnerFrom, spinnerTo, spinnerProject;
         EditText editTextQty, editTextDescription;
         Button buttonSubmit;
         int DTLKEY; // Dtlkey value from DisplayDataActivity
         string ITEMCODE;
         string DESCRIPTION;
         string LOCATION;
+        string PROJECT;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -34,6 +35,7 @@ namespace Xamarin_Scanner_example
 
             spinnerFrom = FindViewById<Spinner>(Resource.Id.spinnerFrom);
             spinnerTo = FindViewById<Spinner>(Resource.Id.spinnerTo);
+            spinnerProject = FindViewById<Spinner>(Resource.Id.spinnerProject);
             editTextQty = FindViewById<EditText>(Resource.Id.editTextQty);
             editTextDescription = FindViewById<EditText>(Resource.Id.editTextDescription);
             buttonSubmit = FindViewById<Button>(Resource.Id.buttonSubmit);
@@ -47,6 +49,7 @@ namespace Xamarin_Scanner_example
             // Set default values for EditText fields
             SetDefaultValues();
             SetSpinnerValues();
+            SetUpProjectSpinners();
 
             buttonSubmit.Click += ButtonSubmit_Click;
         }
@@ -87,9 +90,52 @@ namespace Xamarin_Scanner_example
 
         }
 
+        private async void SetUpProjectSpinners()
+        {
+            try
+            {
+                var Project = await FetchProjectsFromApi();
+
+                if (Project != null)
+                {
+                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, Project);
+                    adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+
+                    spinnerProject.Adapter = adapter;
+
+                    // Set default values for spinners
+                    int locationIndex = Project.IndexOf(PROJECT);
+                    spinnerProject.SetSelection(Project.IndexOf("----"));
+                }
+                else
+                {
+                    Toast.MakeText(this, "Failed to load Project", ToastLength.Short).Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+            }
+        }
+
         private async Task<List<string>> FetchLocationsFromApi()
         {
             string apiUrl = "http://169.254.176.239:5264/api/RawMaterial/GetLocation";
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<List<string>>(json);
+                }
+                return null;
+            }
+        }
+
+        private async Task<List<string>> FetchProjectsFromApi()
+        {
+            string apiUrl = "http://169.254.176.239:5264/api/RawMaterial/GetProjectData";
             using (HttpClient client = new HttpClient())
             {
                 HttpResponseMessage response = await client.GetAsync(apiUrl);

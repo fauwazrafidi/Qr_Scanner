@@ -19,13 +19,14 @@ namespace Xamarin_Scanner_example
     [Activity(Label = "Checkout")]
     public class CheckoutActivity : AppCompatActivity
     {
-        Spinner spinnerFrom, spinnerTo;
+        Spinner spinnerFrom, spinnerTo, spinnerProject, spinnerCompanyCode;
         EditText editTextQty, editTextDescription;
         Button buttonSubmit;
         int DTLKEY; // Dtlkey value from DisplayDataActivity
         string ITEMCODE;
         string DESCRIPTION;
         string LOCATION;
+        string PROJECT;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -34,6 +35,8 @@ namespace Xamarin_Scanner_example
 
             spinnerFrom = FindViewById<Spinner>(Resource.Id.spinnerFrom);
             spinnerTo = FindViewById<Spinner>(Resource.Id.spinnerTo);
+            spinnerProject = FindViewById<Spinner>(Resource.Id.spinnerProject);
+            spinnerCompanyCode = FindViewById<Spinner>(Resource.Id.spinnerCompanyCode);
             editTextQty = FindViewById<EditText>(Resource.Id.editTextQty);
             editTextDescription = FindViewById<EditText>(Resource.Id.editTextDescription);
             buttonSubmit = FindViewById<Button>(Resource.Id.buttonSubmit);
@@ -47,6 +50,8 @@ namespace Xamarin_Scanner_example
             // Set default values for EditText fields
             SetDefaultValues();
             SetUpSpinners();
+            SetUpProjectSpinners();
+            SetUpCompanyCodeSpinner();
 
             buttonSubmit.Click += ButtonSubmit_Click;
         }
@@ -89,6 +94,59 @@ namespace Xamarin_Scanner_example
             }
         }
 
+        private async void SetUpProjectSpinners()
+        {
+            try
+            {
+                var Project = await FetchProjectsFromApi();
+
+                if (Project != null)
+                {
+                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, Project);
+                    adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+
+                    spinnerProject.Adapter = adapter;
+
+                    // Set default values for spinners
+                    int locationIndex = Project.IndexOf(PROJECT);
+                    spinnerProject.SetSelection(Project.IndexOf("----"));
+                }
+                else
+                {
+                    Toast.MakeText(this, "Failed to load Project", ToastLength.Short).Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+            }
+        }
+
+        private async void SetUpCompanyCodeSpinner()
+        {
+            try
+            {
+                var companyCodes = await FetchCompanyCodesFromApi();
+
+                if (companyCodes != null)
+                {
+                    var adapter = new CompanyCodeAdapter(this, companyCodes);
+                    spinnerCompanyCode.Adapter = adapter;
+
+                    // Optionally, set a default selection
+                    spinnerCompanyCode.SetSelection(0);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Failed to load company codes", ToastLength.Short).Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+            }
+        }
+
         private async Task<List<string>> FetchLocationsFromApi()
         {
             string apiUrl = "http://169.254.176.239:5264/api/RawMaterial/GetLocation";
@@ -99,6 +157,36 @@ namespace Xamarin_Scanner_example
                 {
                     string json = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<List<string>>(json);
+                }
+                return null;
+            }
+        }
+
+        private async Task<List<string>> FetchProjectsFromApi()
+        {
+            string apiUrl = "http://169.254.176.239:5264/api/RawMaterial/GetProjectData";
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<List<string>>(json);
+                }
+                return null;
+            }
+        }
+
+        private async Task<List<CompanyCode>> FetchCompanyCodesFromApi()
+        {
+            string apiUrl = "http://169.254.176.239:5264/api/RawMaterial/GetCompanyCode";
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<List<CompanyCode>>(json);
                 }
                 return null;
             }
@@ -170,6 +258,7 @@ namespace Xamarin_Scanner_example
 
             var from = spinnerFrom.SelectedItem.ToString();
             var to = spinnerTo.SelectedItem.ToString();
+            var selectedCompanyCode = spinnerCompanyCode.SelectedItem as CompanyCode;
 
             // Create object with input data
             var checkoutData = new CheckoutData
@@ -178,7 +267,9 @@ namespace Xamarin_Scanner_example
                 From = from,
                 To = to,
                 Qty = qty,
-                Description = editTextDescription.Text
+                Description = editTextDescription.Text,
+                Project = spinnerProject.SelectedItem.ToString(),
+                CompanyCode = selectedCompanyCode?.Code,
             };
 
             // Create and show the loading dialog
@@ -261,5 +352,47 @@ namespace Xamarin_Scanner_example
         public string To { get; set; }
         public decimal Qty { get; set; }
         public string Description { get; set; }
+        public string Project { get; set; }
+        public string CompanyCode { get; set; }
+    }
+
+    public class CompanyCode : Java.Lang.Object, Android.Runtime.IJavaObject
+    {
+        public string Code { get; set; }
+        public string CompanyName { get; set; }
+    }
+
+    public class CompanyCodeAdapter : BaseAdapter<CompanyCode>
+    {
+        private List<CompanyCode> items;
+        private Context context;
+
+        public CompanyCodeAdapter(Context context, List<CompanyCode> items)
+        {
+            this.context = context;
+            this.items = items;
+        }
+
+        public override CompanyCode this[int position] => items[position];
+
+        public override int Count => items.Count;
+
+        public override long GetItemId(int position) => position;
+
+        public override View GetView(int position, View convertView, ViewGroup parent)
+        {
+            var view = convertView ?? LayoutInflater.From(context).Inflate(Android.Resource.Layout.SimpleSpinnerItem, parent, false);
+            var codeTextView = view.FindViewById<TextView>(Android.Resource.Id.Text1);
+            codeTextView.Text = $"{items[position].Code} - {items[position].CompanyName}";
+            return view;
+        }
+
+        public override View GetDropDownView(int position, View convertView, ViewGroup parent)
+        {
+            var view = convertView ?? LayoutInflater.From(context).Inflate(Android.Resource.Layout.SimpleSpinnerDropDownItem, parent, false);
+            var codeTextView = view.FindViewById<TextView>(Android.Resource.Id.Text1);
+            codeTextView.Text = $"{items[position].Code} - {items[position].CompanyName}";
+            return view;
+        }
     }
 }
