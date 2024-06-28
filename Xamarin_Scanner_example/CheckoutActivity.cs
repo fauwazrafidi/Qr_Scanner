@@ -309,25 +309,35 @@ namespace Xamarin_Scanner_example
 
         private async Task<bool> SendDataToServer(CheckoutData checkoutData)
         {
-
-            string apiUrl1 = "http://169.254.176.239:5264/api/RawMaterial/AddSTXF";
-            using (HttpClient client = new HttpClient())
+            try
             {
-                string json = JsonConvert.SerializeObject(checkoutData);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(apiUrl1, content);
-
-                if (response.IsSuccessStatusCode)
+                string apiUrl1 = "http://169.254.176.239:5264/api/RawMaterial/AddSTXF";
+                using (HttpClient client = new HttpClient())
                 {
-                    string apiUrl2 = $"http://169.254.176.239:5264/api/RawMaterial/Checkout?dtlkey={DTLKEY}&checkoutQty={editTextQty.Text}";
-                    StringContent content1 = new StringContent(json, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response1 = await client.PutAsync(apiUrl2, null);
+                    string json = JsonConvert.SerializeObject(checkoutData);
+                    StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PostAsync(apiUrl1, content);
 
-                    return response1.IsSuccessStatusCode;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiUrl2 = $"http://169.254.176.239:5264/api/RawMaterial/Checkout?dtlkey={DTLKEY}&checkoutQty={editTextQty.Text}";
+                        StringContent content1 = new StringContent(json, Encoding.UTF8, "application/json");
+                        HttpResponseMessage response1 = await client.PutAsync(apiUrl2, null);
+
+                        return response1.IsSuccessStatusCode;
+                    }
+
+                    return response.IsSuccessStatusCode;
                 }
-
-                return response.IsSuccessStatusCode;
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                ShowAlertDialog("Alert!", $"An Error occur: {ex.Message}");
+
+                return false;
+            }
+            
         }
 
         private void ShowAlertDialog(string title, string message)
