@@ -3,11 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A3E3F6CE-08E0-4797-9734-B314C8B7702C}|Xamarin_Scanner_example.csproj|C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\finishedgoodsactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A3E3F6CE-08E0-4797-9734-B314C8B7702C}|Xamarin_Scanner_example.csproj|c:\\users\\user\\source\\repos\\qr_scanner\\xamarin_scanner_example\\finishedgoodsactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A3E3F6CE-08E0-4797-9734-B314C8B7702C}|Xamarin_Scanner_example.csproj|solutionrelative:finishedgoodsactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A3E3F6CE-08E0-4797-9734-B314C8B7702C}|Xamarin_Scanner_example.csproj|c:\\users\\user\\source\\repos\\qr_scanner\\xamarin_scanner_example\\checkoutactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A3E3F6CE-08E0-4797-9734-B314C8B7702C}|Xamarin_Scanner_example.csproj|C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\displaydataactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3E3F6CE-08E0-4797-9734-B314C8B7702C}|Xamarin_Scanner_example.csproj|solutionrelative:displaydataactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A3E3F6CE-08E0-4797-9734-B314C8B7702C}|Xamarin_Scanner_example.csproj|C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\checkoutactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A3E3F6CE-08E0-4797-9734-B314C8B7702C}|Xamarin_Scanner_example.csproj|solutionrelative:checkoutactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -29,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A3E3F6CE-08E0-4797-9734-B314C8B7702C}|Xamarin_Scanner_example.csproj|C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\resources\\layout\\content_main.xml||{A4B51DF8-501B-45AD-A022-1A0D18A2B7B0}",
       "RelativeMoniker": "D:0:0:{A3E3F6CE-08E0-4797-9734-B314C8B7702C}|Xamarin_Scanner_example.csproj|solutionrelative:resources\\layout\\content_main.xml||{A4B51DF8-501B-45AD-A022-1A0D18A2B7B0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A3E3F6CE-08E0-4797-9734-B314C8B7702C}|Xamarin_Scanner_example.csproj|C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\displaydataactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3E3F6CE-08E0-4797-9734-B314C8B7702C}|Xamarin_Scanner_example.csproj|solutionrelative:displaydataactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A3E3F6CE-08E0-4797-9734-B314C8B7702C}|Xamarin_Scanner_example.csproj|C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\resources\\layout\\activity_display_data.xml||{A4B51DF8-501B-45AD-A022-1A0D18A2B7B0}",
@@ -192,7 +192,7 @@
         },
         {
           "DockedWidth": 254,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -200,15 +200,14 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "activity_finished_goods.xml",
               "DocumentMoniker": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\Resources\\layout\\activity_finished_goods.xml",
               "RelativeDocumentMoniker": "Resources\\layout\\activity_finished_goods.xml",
               "ToolTip": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\Resources\\layout\\activity_finished_goods.xml",
               "RelativeToolTip": "Resources\\layout\\activity_finished_goods.xml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
-              "WhenOpened": "2024-06-26T05:36:56.28Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-26T05:36:56.28Z"
             },
             {
               "$type": "Document",
@@ -224,20 +223,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CheckoutActivity.cs",
               "DocumentMoniker": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\CheckoutActivity.cs",
               "RelativeDocumentMoniker": "CheckoutActivity.cs",
               "ToolTip": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\CheckoutActivity.cs",
               "RelativeToolTip": "CheckoutActivity.cs",
-              "ViewState": "AQIAACsAAAAAAAAAAAAQwOgAAAAPAAAA",
+              "ViewState": "AQIAAO4AAAAAAAAAAADwv/4AAABTAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-07T08:31:11.088Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "ReturnActivity.cs",
               "DocumentMoniker": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\ReturnActivity.cs",
               "RelativeDocumentMoniker": "ReturnActivity.cs",
@@ -250,7 +249,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
+              "Title": "FinishedGoodsActivity.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\FinishedGoodsActivity.cs",
+              "RelativeDocumentMoniker": "FinishedGoodsActivity.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\FinishedGoodsActivity.cs",
+              "RelativeToolTip": "FinishedGoodsActivity.cs",
+              "ViewState": "AQIAAKMAAAAAAAAAAADwv60AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-14T04:08:18.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "JavaObjectExtensions.cs",
               "DocumentMoniker": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\JavaObjectExtensions.cs",
               "RelativeDocumentMoniker": "JavaObjectExtensions.cs",
@@ -262,7 +274,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "activity_checkout.xml",
               "DocumentMoniker": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\Resources\\layout\\activity_checkout.xml",
               "RelativeDocumentMoniker": "Resources\\layout\\activity_checkout.xml",
@@ -273,15 +285,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
               "Title": "DisplayDataActivity.cs",
               "DocumentMoniker": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\DisplayDataActivity.cs",
               "RelativeDocumentMoniker": "DisplayDataActivity.cs",
               "ToolTip": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\DisplayDataActivity.cs",
               "RelativeToolTip": "DisplayDataActivity.cs",
-              "ViewState": "AQIAAL4AAAAAAAAAAAAAwAgBAABnAAAA",
+              "ViewState": "AQIAAIwAAAAAAAAAAAAAAL0AAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-07T07:59:50.093Z"
+              "WhenOpened": "2024-06-07T07:59:50.093Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -319,7 +332,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "content_main.xml",
               "DocumentMoniker": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\Resources\\layout\\content_main.xml",
               "RelativeDocumentMoniker": "Resources\\layout\\content_main.xml",
@@ -331,26 +344,7 @@
           ]
         },
         {
-          "DockedWidth": 254,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "FinishedGoodsActivity.cs",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\FinishedGoodsActivity.cs",
-              "RelativeDocumentMoniker": "FinishedGoodsActivity.cs",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\Qr_Scanner\\Xamarin_Scanner_example\\FinishedGoodsActivity.cs",
-              "RelativeToolTip": "FinishedGoodsActivity.cs",
-              "ViewState": "AQIAAOUAAAAAAAAAAADwv/IAAAAjAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-14T04:08:18.251Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 254,
+          "DockedWidth": 226,
           "SelectedChildIndex": -1,
           "Children": [
             {
@@ -360,7 +354,7 @@
           ]
         },
         {
-          "DockedWidth": 226,
+          "DockedWidth": 200,
           "SelectedChildIndex": -1,
           "Children": [
             {

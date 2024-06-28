@@ -3406,10 +3406,13 @@ namespace Xamarin_Scanner_example
 			public const int dataCustomerView = 2131230783;
 			
 			// aapt resource value: 0x7F080040
-			public const int dataOperationIdView = 2131230784;
+			public const int dataEditText_orderUserfield65 = 2131230784;
 			
 			// aapt resource value: 0x7F080041
-			public const int dataOperationOperationView = 2131230785;
+			public const int dataOperationIdView = 2131230785;
+			
+			// aapt resource value: 0x7F080042
+			public const int dataOperationOperationView = 2131230786;
 			
 			// aapt resource value: 0x7F080054
 			public const int dataorderArticleView = 2131230804;
@@ -3417,59 +3420,56 @@ namespace Xamarin_Scanner_example
 			// aapt resource value: 0x7F080055
 			public const int dataorderUserfield65View = 2131230805;
 			
-			// aapt resource value: 0x7F080042
-			public const int dataTextView = 2131230786;
-			
 			// aapt resource value: 0x7F080043
-			public const int dataTextView2 = 2131230787;
+			public const int dataTextView = 2131230787;
 			
 			// aapt resource value: 0x7F080044
-			public const int dataTextView3 = 2131230788;
+			public const int dataTextView2 = 2131230788;
 			
 			// aapt resource value: 0x7F080045
-			public const int dataTextView4 = 2131230789;
+			public const int dataTextView3 = 2131230789;
 			
 			// aapt resource value: 0x7F080046
-			public const int dataTextView5 = 2131230790;
+			public const int dataTextView4 = 2131230790;
 			
 			// aapt resource value: 0x7F080047
-			public const int dataTextView6 = 2131230791;
+			public const int dataTextView5 = 2131230791;
 			
 			// aapt resource value: 0x7F080048
-			public const int dataTextView7 = 2131230792;
+			public const int dataTextView6 = 2131230792;
 			
 			// aapt resource value: 0x7F080049
-			public const int dataTextView_Checkin = 2131230793;
+			public const int dataTextView7 = 2131230793;
 			
 			// aapt resource value: 0x7F08004A
-			public const int dataTextView_Description = 2131230794;
+			public const int dataTextView_Checkin = 2131230794;
 			
 			// aapt resource value: 0x7F08004B
-			public const int dataTextView_Description2 = 2131230795;
+			public const int dataTextView_Description = 2131230795;
 			
 			// aapt resource value: 0x7F08004C
-			public const int dataTextView_Grv = 2131230796;
+			public const int dataTextView_Description2 = 2131230796;
 			
 			// aapt resource value: 0x7F08004D
-			public const int dataTextView_Itemcode = 2131230797;
+			public const int dataTextView_Grv = 2131230797;
 			
 			// aapt resource value: 0x7F08004E
-			public const int dataTextView_Location = 2131230798;
+			public const int dataTextView_Itemcode = 2131230798;
 			
 			// aapt resource value: 0x7F08004F
-			public const int dataTextView_Operation = 2131230799;
+			public const int dataTextView_Location = 2131230799;
 			
 			// aapt resource value: 0x7F080050
-			public const int dataTextView_OperationOperation = 2131230800;
-			
-			// aapt resource value: 0x7F080052
-			public const int dataTextView_orderArticle = 2131230802;
-			
-			// aapt resource value: 0x7F080053
-			public const int dataTextView_orderUserfield65 = 2131230803;
+			public const int dataTextView_Operation = 2131230800;
 			
 			// aapt resource value: 0x7F080051
-			public const int dataTextView_Qtyremain = 2131230801;
+			public const int dataTextView_OperationOperation = 2131230801;
+			
+			// aapt resource value: 0x7F080053
+			public const int dataTextView_orderArticle = 2131230803;
+			
+			// aapt resource value: 0x7F080052
+			public const int dataTextView_Qtyremain = 2131230802;
 			
 			// aapt resource value: 0x7F080056
 			public const int decor_content_parent = 2131230806;

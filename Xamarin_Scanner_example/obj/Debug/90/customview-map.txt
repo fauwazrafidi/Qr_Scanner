@@ -16,6 +16,7 @@ corners;obj\Debug\90\res\drawable\round_button_purple.xml
 corners;obj\Debug\90\res\drawable\round_button_teal.xml
 dimen;obj\Debug\90\res\values\dimens.xml
 EditText;obj\Debug\90\res\layout\activity_checkout.xml
+EditText;obj\Debug\90\res\layout\activity_finished_goods.xml
 EditText;obj\Debug\90\res\layout\content_main.xml
 external-cache-path;C:\Users\User\source\repos\Qr_Scanner\Xamarin_Scanner_example\obj\Debug\90\lp\36\jl\res\xml\xamarin_essentials_fileprovider_file_paths.xml
 external-path;C:\Users\User\source\repos\Qr_Scanner\Xamarin_Scanner_example\obj\Debug\90\lp\36\jl\res\xml\xamarin_essentials_fileprovider_file_paths.xml

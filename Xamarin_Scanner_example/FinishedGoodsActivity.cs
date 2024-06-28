@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using static Android.Util.EventLogTags;
+using static Xamarin_Scanner_example.FinishedGoodsActivity;
 
 namespace Xamarin_Scanner_example
 {
@@ -23,7 +24,8 @@ namespace Xamarin_Scanner_example
     {
         private ScanManager mScanManager;
         Spinner spinnerCustomer;
-        TextView dataTextView_Operation, dataTextView_OperationOperation, dataTextView_orderArticle, dataTextView_orderUserfield65;
+        TextView dataTextView_Operation, dataTextView_OperationOperation, dataTextView_orderArticle;
+        EditText dataEditText_orderUserfield65;
         Button buttonFinishedGoods;
         string CUSTOMER;
 
@@ -39,7 +41,7 @@ namespace Xamarin_Scanner_example
             dataTextView_Operation = FindViewById<TextView>(Resource.Id.dataTextView_Operation);
             dataTextView_OperationOperation = FindViewById<TextView>(Resource.Id.dataTextView_OperationOperation);
             dataTextView_orderArticle = FindViewById<TextView>(Resource.Id.dataTextView_orderArticle);
-            dataTextView_orderUserfield65 = FindViewById<TextView>(Resource.Id.dataTextView_orderUserfield65);
+            dataEditText_orderUserfield65 = FindViewById<EditText>(Resource.Id.dataEditText_orderUserfield65);
             spinnerCustomer = FindViewById<Spinner>(Resource.Id.spinnerCustomer);
 
             buttonFinishedGoods = FindViewById<Button>(Resource.Id.buttonFinishedGoods);
@@ -57,10 +59,10 @@ namespace Xamarin_Scanner_example
 
         }
 
-        private string OperationId;
-        private string OperationOperation;
-        private string orderArticle;
-        private int orderUserfield65;
+        private string _OperationId;
+        private string _OperationOperation;
+        private string _orderArticle;
+        private int _orderUserfield65;
 
         private async void SetUpSpinners()
         {
@@ -77,7 +79,7 @@ namespace Xamarin_Scanner_example
 
                     // Set default values for spinners
                     int customerIndex = customer.IndexOf(CUSTOMER);
-                    spinnerCustomer.SetSelection(customer.IndexOf("C-AA Products"));
+                    spinnerCustomer.SetSelection(customer.IndexOf("----"));
                 }
                 else
                 {
@@ -90,13 +92,13 @@ namespace Xamarin_Scanner_example
             }
         }
 
-        private async Task<bool> SendDataToServer(CheckoutData checkoutData)
+        private async Task<bool> SendDataToServer(FGTransferData FgTransferData)
         {
 
-            string apiUrl1 = "http://169.254.176.239:5264/api/RawMaterial/AddSTAS";
+            string apiUrl1 = "http://169.254.176.239:5264/api/FG/AddSTAS";
             using (HttpClient client = new HttpClient())
             {
-                string json = JsonConvert.SerializeObject(checkoutData);
+                string json = JsonConvert.SerializeObject(FgTransferData);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(apiUrl1, content);
 
@@ -121,47 +123,106 @@ namespace Xamarin_Scanner_example
 
         private async void FetchAndDisplayData(string apiUrl)
         {
-            using (HttpClient client = new HttpClient())
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.SetMessage("Fetching data...");
+            progressDialog.SetCancelable(false); // Optional, if you don't want the user to cancel it
+            progressDialog.Show();
+
+            try
             {
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
+                using (HttpClient client = new HttpClient())
                 {
-                    string json = await response.Content.ReadAsStringAsync();
-                    var data = JsonConvert.DeserializeObject<ApiResponse>(json);
-                    DisplayData(data);
+                    HttpResponseMessage response = await client.GetAsync(apiUrl);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string json = await response.Content.ReadAsStringAsync();
+                        var data = JsonConvert.DeserializeObject<ApiResponse>(json);
+                        DisplayData(data);
 
-                    OperationId = data.OperationId;
-                    OperationOperation = data.OperationOperation;
-                    orderArticle = data.orderArticle;
-                    orderUserfield65 = data.orderUserfield65;
+                        _OperationId = data.OperationId;
+                        _OperationOperation = data.OperationOperation;
+                        _orderArticle = data.orderArticle;
+                        _orderUserfield65 = data.orderUserfield65;
 
-                }
-                else
-                {
-                    ShowAlertDialog("Alert!", "Unable to Connect To Server");
+                    }
+                    else
+                    {
+                        ShowAlertDialog("Alert!", "Unable to Connect To Server");
+                    }
                 }
             }
+            catch (HttpRequestException httpRequestException)
+            {
+                ShowAlertDialog("Network Error", "A network error occurred: " + httpRequestException.Message);
+            }
+            catch (TaskCanceledException taskCanceledException)
+            {
+                ShowAlertDialog("Timeout", "The request timed out: " + taskCanceledException.Message);
+            }
+            catch (Exception ex)
+            {
+                ShowAlertDialog("Error", "An unexpected error occurred: " + ex.Message);
+            }
+            finally
+            {
+                // Dismiss the loading dialog
+                progressDialog.Dismiss();
+            }
+
+            
         }
 
-        //private async void ButtonFinishedGoods_Click(object sender, EventArgs e)
-        //{
-        //    if (CheckOut)
-        //    {
-        //        ShowAlertDialog("Alert!", "Finished Goods has Checked Out");
-        //    }
-        //    else if(CheckIn)
-        //    {
-        //        ShowWarningDialog("Notice", "This is For CheckOut. Do you approve?");
-        //    }
-        //    else
-        //    {
-        //        ShowWarningDialog("Notice", "This is For CheckIn. Do you approve?");
-        //    }
-        //}
 
         private async void ButtonFinishedGoods_Click(object sender, EventArgs e)
         {
+            if (!int.TryParse(dataEditText_orderUserfield65.Text, out int qty))
+            {
+                Toast.MakeText(this, "Invalid quantity", ToastLength.Short).Show();
+                return;
+            }
 
+            var FgTransferData = new FGTransferData 
+            {
+                OperationId = _OperationId,
+                OperationOperation = _OperationOperation,
+                orderArticle = _orderArticle,
+                orderUserfield65 = qty,
+                Customer = spinnerCustomer.SelectedItem.ToString(),
+            };
+
+            
+
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.SetMessage("Submitting data...");
+            progressDialog.SetCancelable(false); // Optional, if you don't want the user to cancel it
+            progressDialog.Show();
+
+            try
+            {
+                bool result = await SendDataToServer(FgTransferData);
+
+                if (result)
+                {
+                    ShowAlertDialog("Notice", "Data submitted successfully");
+                }
+                else
+                {
+                    //// Optionally, handle failure
+                    //Intent intent = new Intent(this, typeof(MainActivity));
+                    //StartActivity(intent);
+                    ShowAlertDialog("Alert!", "Data Submission Failed!");
+                }
+            }
+            catch (Exception ex)
+            {
+                //Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+                ShowAlertDialog("Alert!", "An error occurred: " + ex.Message);
+            }
+            finally
+            {
+                // Dismiss the loading dialog
+                progressDialog.Dismiss();
+            }
         }
 
         private void ShowAlertDialog(string title, string message)
@@ -229,7 +290,7 @@ namespace Xamarin_Scanner_example
             dataTextView_Operation.Text = data.OperationId;
             dataTextView_OperationOperation.Text = data.OperationOperation;
             dataTextView_orderArticle.Text = data.orderArticle;
-            dataTextView_orderUserfield65.Text = $"{data.orderUserfield65}";
+            dataEditText_orderUserfield65.SetText($"{data.orderUserfield65}", TextView.BufferType.Normal);
         }
 
         public class ApiResponse
