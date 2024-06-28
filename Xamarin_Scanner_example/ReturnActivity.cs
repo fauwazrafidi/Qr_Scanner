@@ -19,7 +19,7 @@ namespace Xamarin_Scanner_example
     [Activity(Label = "Return")]
     public class ReturnActivity : AppCompatActivity
     {
-        Spinner spinnerFrom, spinnerTo, spinnerProject;
+        Spinner spinnerFrom, spinnerTo, spinnerProject, spinnerCompanyCode;
         EditText editTextQty, editTextDescription;
         Button buttonSubmit;
         int DTLKEY; // Dtlkey value from DisplayDataActivity
@@ -36,6 +36,7 @@ namespace Xamarin_Scanner_example
             spinnerFrom = FindViewById<Spinner>(Resource.Id.spinnerFrom);
             spinnerTo = FindViewById<Spinner>(Resource.Id.spinnerTo);
             spinnerProject = FindViewById<Spinner>(Resource.Id.spinnerProject);
+            spinnerCompanyCode = FindViewById<Spinner>(Resource.Id.spinnerCompanyCode);
             editTextQty = FindViewById<EditText>(Resource.Id.editTextQty);
             editTextDescription = FindViewById<EditText>(Resource.Id.editTextDescription);
             buttonSubmit = FindViewById<Button>(Resource.Id.buttonSubmit);
@@ -50,6 +51,7 @@ namespace Xamarin_Scanner_example
             SetDefaultValues();
             SetSpinnerValues();
             SetUpProjectSpinners();
+            SetUpCompanyCodeSpinner();
 
             buttonSubmit.Click += ButtonSubmit_Click;
         }
@@ -118,6 +120,31 @@ namespace Xamarin_Scanner_example
             }
         }
 
+        private async void SetUpCompanyCodeSpinner()
+        {
+            try
+            {
+                var companyCodes = await FetchCompanyCodesFromApi();
+
+                if (companyCodes != null)
+                {
+                    var adapter = new CompanyCodeAdapter(this, companyCodes);
+                    spinnerCompanyCode.Adapter = adapter;
+
+                    // Optionally, set a default selection
+                    spinnerCompanyCode.SetSelection(0);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Failed to load company codes", ToastLength.Short).Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+            }
+        }
+
         private async Task<List<string>> FetchLocationsFromApi()
         {
             string apiUrl = "http://169.254.176.239:5264/api/RawMaterial/GetLocation";
@@ -143,6 +170,21 @@ namespace Xamarin_Scanner_example
                 {
                     string json = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<List<string>>(json);
+                }
+                return null;
+            }
+        }
+
+        private async Task<List<CompanyCode>> FetchCompanyCodesFromApi()
+        {
+            string apiUrl = "http://169.254.176.239:5264/api/RawMaterial/GetCompanyCode";
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<List<CompanyCode>>(json);
                 }
                 return null;
             }
@@ -214,6 +256,8 @@ namespace Xamarin_Scanner_example
                 return;
             }
 
+            var selectedCompanyCode = spinnerCompanyCode.SelectedItem as CompanyCode;
+
             // Create object with input data
             var returnData = new ReturnData
             {
@@ -221,7 +265,9 @@ namespace Xamarin_Scanner_example
                 From = spinnerFrom.SelectedItem.ToString(),
                 To = spinnerTo.SelectedItem.ToString(),
                 Qty = qty,
-                Description = editTextDescription.Text
+                Description = editTextDescription.Text,
+                Project = spinnerProject.SelectedItem.ToString(),
+                CompanyCode = selectedCompanyCode?.Code,
             };
 
             // Create and show the loading dialog
@@ -309,5 +355,8 @@ namespace Xamarin_Scanner_example
         public string To { get; set; }
         public decimal Qty { get; set; }
         public string Description { get; set; }
+        public string Project { get; set; }
+        public string CompanyCode { get; set; }
     }
+
 }

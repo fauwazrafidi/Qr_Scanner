@@ -43,7 +43,7 @@ namespace Xamarin_Scanner_example
             spinnerCustomer = FindViewById<Spinner>(Resource.Id.spinnerCustomer);
 
             buttonFinishedGoods = FindViewById<Button>(Resource.Id.buttonFinishedGoods);
-            //buttonFinishedGoods.Click += ButtonFinishedGoods_Click;
+            buttonFinishedGoods.Click += ButtonFinishedGoods_Click;
 
             string scanResultUrl = Intent.GetStringExtra("ScanResultUrl");
 
@@ -87,6 +87,20 @@ namespace Xamarin_Scanner_example
             catch (Exception ex)
             {
                 Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+            }
+        }
+
+        private async Task<bool> SendDataToServer(CheckoutData checkoutData)
+        {
+
+            string apiUrl1 = "http://169.254.176.239:5264/api/RawMaterial/AddSTAS";
+            using (HttpClient client = new HttpClient())
+            {
+                string json = JsonConvert.SerializeObject(checkoutData);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(apiUrl1, content);
+
+                return response.IsSuccessStatusCode;
             }
         }
 
@@ -144,6 +158,11 @@ namespace Xamarin_Scanner_example
         //        ShowWarningDialog("Notice", "This is For CheckIn. Do you approve?");
         //    }
         //}
+
+        private async void ButtonFinishedGoods_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void ShowAlertDialog(string title, string message)
         {
@@ -219,6 +238,15 @@ namespace Xamarin_Scanner_example
             public string OperationOperation { get; set; }
             public string orderArticle { get; set; } //DESCRIPTION
             public int orderUserfield65 { get; set; }
+        }
+
+        public class FGTransferData
+        {
+            public string OperationId { get; set; } //DOCNO
+            public string OperationOperation { get; set; }
+            public string orderArticle { get; set; } //DESCRIPTION
+            public int orderUserfield65 { get; set; }
+            public string Customer { get; set; }
         }
     }
 }
