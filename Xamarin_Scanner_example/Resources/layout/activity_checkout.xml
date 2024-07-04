@@ -11,12 +11,13 @@
         android:layout_height="wrap_content"
         android:text="FROM:" 
         android:layout_alignParentTop="true"/>
-    <Spinner
+    <AutoCompleteTextView
         android:id="@+id/spinnerFrom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        android:completionThreshold="1"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -24,12 +25,13 @@
         android:layout_height="wrap_content"
         android:text="TO:" 
         android:layout_below="@+id/spinnerFrom"/>
-    <Spinner
+    <AutoCompleteTextView
         android:id="@+id/spinnerTo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:completionThreshold="1"/>
 
     <TextView
         android:id="@+id/textView5"
@@ -37,12 +39,13 @@
         android:layout_height="wrap_content"
         android:text="PROJECT:" 
         android:layout_below="@+id/spinnerTo"/>
-    <Spinner
+    <AutoCompleteTextView
         android:id="@+id/spinnerProject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView5"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:completionThreshold="1"/>
 
     <TextView
         android:id="@+id/textView6"
@@ -50,12 +53,13 @@
         android:layout_height="wrap_content"
         android:text="COMPANY CODE:" 
         android:layout_below="@+id/spinnerProject"/>
-    <Spinner
+    <AutoCompleteTextView
         android:id="@+id/spinnerCompanyCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView6"
-        android:layout_marginBottom="16dp" />
+        android:hint="Select Company Code"
+        android:completionThreshold="1"/>
 
     <TextView
         android:id="@+id/textView3"

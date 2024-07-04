@@ -51,7 +51,7 @@ namespace Xamarin_Scanner_example
             SetDefaultValues();
             SetSpinnerValues();
             SetUpProjectSpinners();
-            SetUpCompanyCodeSpinner();
+            //SetUpCompanyCodeSpinner();
 
             buttonSubmit.Click += ButtonSubmit_Click;
         }
@@ -120,30 +120,30 @@ namespace Xamarin_Scanner_example
             }
         }
 
-        private async void SetUpCompanyCodeSpinner()
-        {
-            try
-            {
-                var companyCodes = await FetchCompanyCodesFromApi();
+        //private async void SetUpCompanyCodeSpinner()
+        //{
+        //    try
+        //    {
+        //        var companyCodes = await FetchCompanyCodesFromApi();
 
-                if (companyCodes != null)
-                {
-                    var adapter = new CompanyCodeAdapter(this, companyCodes);
-                    spinnerCompanyCode.Adapter = adapter;
+        //        if (companyCodes != null)
+        //        {
+        //            var adapter = new CompanyCodeAdapter(this, companyCodes);
+        //            spinnerCompanyCode.Adapter = adapter;
 
-                    // Optionally, set a default selection
-                    spinnerCompanyCode.SetSelection(0);
-                }
-                else
-                {
-                    Toast.MakeText(this, "Failed to load company codes", ToastLength.Short).Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
-            }
-        }
+        //            // Optionally, set a default selection
+        //            spinnerCompanyCode.SetSelection(0);
+        //        }
+        //        else
+        //        {
+        //            Toast.MakeText(this, "Failed to load company codes", ToastLength.Short).Show();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+        //    }
+        //}
 
         private async Task<List<string>> FetchLocationsFromApi()
         {

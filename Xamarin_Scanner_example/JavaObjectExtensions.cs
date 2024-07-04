@@ -14,9 +14,24 @@ namespace Xamarin_Scanner_example
 {
     public static class JavaObjectExtensions
     {
-        public static T ToNetObject<T>(this Java.Lang.Object javaObject) where T : class, Android.Runtime.IJavaObject
+        public static Java.Lang.Object ToJavaObject(this CompanyCode companyCode)
         {
-            return javaObject.Handle != IntPtr.Zero ? Java.Lang.Object.GetObject<T>(javaObject.Handle, JniHandleOwnership.DoNotTransfer) : null;
+            return new JavaObjectWrapper<CompanyCode>(companyCode);
+        }
+    }
+
+    public class JavaObjectWrapper<T> : Java.Lang.Object
+    {
+        private readonly T _instance;
+
+        public JavaObjectWrapper(T instance)
+        {
+            _instance = instance;
+        }
+
+        public T GetInstance()
+        {
+            return _instance;
         }
     }
 }
