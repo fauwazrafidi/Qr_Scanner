@@ -19,7 +19,7 @@ namespace Xamarin_Scanner_example
     [Activity(Label = "Return")]
     public class ReturnActivity : AppCompatActivity
     {
-        Spinner spinnerFrom, spinnerTo, spinnerProject, spinnerCompanyCode;
+        Spinner spinnerFrom, spinnerTo, /*spinnerProject,*/ spinnerCompanyCode;
         EditText editTextQty, editTextDescription;
         Button buttonSubmit;
         int DTLKEY; // Dtlkey value from DisplayDataActivity
@@ -35,7 +35,7 @@ namespace Xamarin_Scanner_example
 
             spinnerFrom = FindViewById<Spinner>(Resource.Id.spinnerFrom);
             spinnerTo = FindViewById<Spinner>(Resource.Id.spinnerTo);
-            spinnerProject = FindViewById<Spinner>(Resource.Id.spinnerProject);
+            //spinnerProject = FindViewById<Spinner>(Resource.Id.spinnerProject);
             spinnerCompanyCode = FindViewById<Spinner>(Resource.Id.spinnerCompanyCode);
             editTextQty = FindViewById<EditText>(Resource.Id.editTextQty);
             editTextDescription = FindViewById<EditText>(Resource.Id.editTextDescription);
@@ -50,8 +50,8 @@ namespace Xamarin_Scanner_example
             // Set default values for EditText fields
             SetDefaultValues();
             SetSpinnerValues();
-            SetUpProjectSpinners();
-            SetUpCompanyCodeSpinner();
+            //SetUpProjectSpinners();
+            //SetUpCompanyCodeSpinner();
 
             buttonSubmit.Click += ButtonSubmit_Click;
         }
@@ -92,58 +92,58 @@ namespace Xamarin_Scanner_example
 
         }
 
-        private async void SetUpProjectSpinners()
-        {
-            try
-            {
-                var Project = await FetchProjectsFromApi();
+        //private async void SetUpProjectSpinners()
+        //{
+        //    try
+        //    {
+        //        var Project = await FetchProjectsFromApi();
 
-                if (Project != null)
-                {
-                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, Project);
-                    adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+        //        if (Project != null)
+        //        {
+        //            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, Project);
+        //            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
 
-                    spinnerProject.Adapter = adapter;
+        //            spinnerProject.Adapter = adapter;
 
-                    // Set default values for spinners
-                    int locationIndex = Project.IndexOf(PROJECT);
-                    spinnerProject.SetSelection(Project.IndexOf("----"));
-                }
-                else
-                {
-                    Toast.MakeText(this, "Failed to load Project", ToastLength.Short).Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
-            }
-        }
+        //            // Set default values for spinners
+        //            int locationIndex = Project.IndexOf(PROJECT);
+        //            spinnerProject.SetSelection(Project.IndexOf("----"));
+        //        }
+        //        else
+        //        {
+        //            Toast.MakeText(this, "Failed to load Project", ToastLength.Short).Show();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+        //    }
+        //}
 
-        private async void SetUpCompanyCodeSpinner()
-        {
-            try
-            {
-                var companyCodes = await FetchCompanyCodesFromApi();
+        //private async void SetUpCompanyCodeSpinner()
+        //{
+        //    try
+        //    {
+        //        var companyCodes = await FetchCompanyCodesFromApi();
 
-                if (companyCodes != null)
-                {
-                    var adapter = new CompanyCodeAdapter(this, companyCodes);
-                    spinnerCompanyCode.Adapter = adapter;
+        //        if (companyCodes != null)
+        //        {
+        //            var adapter = new CompanyCodeAdapter(this, companyCodes);
+        //            spinnerCompanyCode.Adapter = adapter;
 
-                    // Optionally, set a default selection
-                    spinnerCompanyCode.SetSelection(0);
-                }
-                else
-                {
-                    Toast.MakeText(this, "Failed to load company codes", ToastLength.Short).Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
-            }
-        }
+        //            // Optionally, set a default selection
+        //            spinnerCompanyCode.SetSelection(0);
+        //        }
+        //        else
+        //        {
+        //            Toast.MakeText(this, "Failed to load company codes", ToastLength.Short).Show();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+        //    }
+        //}
 
         private async Task<List<string>> FetchLocationsFromApi()
         {
@@ -266,7 +266,7 @@ namespace Xamarin_Scanner_example
                 To = spinnerTo.SelectedItem.ToString(),
                 Qty = qty,
                 Description = editTextDescription.Text,
-                Project = spinnerProject.SelectedItem.ToString(),
+                //Project = spinnerProject.SelectedItem.ToString(),
                 CompanyCode = selectedCompanyCode?.Code,
             };
 

@@ -37,19 +37,20 @@
         android:layout_height="wrap_content"
         android:text="PROJECT:" 
         android:layout_below="@+id/spinnerTo"/>
-    <Spinner
-        android:id="@+id/spinnerProject"
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteProject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView5"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:hint="Select Project"/>
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="COMPANY CODE:" 
-        android:layout_below="@+id/spinnerProject"/>
+        android:layout_below="@+id/autoCompleteProject"/>
     <Spinner
         android:id="@+id/spinnerCompanyCode"
         android:layout_width="match_parent"

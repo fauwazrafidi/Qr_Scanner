@@ -6,6 +6,7 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using com.companyname.xamarin_scanner_example;
+using Java.Lang;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,8 @@ namespace Xamarin_Scanner_example
     [Activity(Label = "Checkout")]
     public class CheckoutActivity : AppCompatActivity
     {
-        Spinner spinnerFrom, spinnerTo, spinnerProject, spinnerCompanyCode;
+        Spinner spinnerFrom, spinnerTo, spinnerCompanyCode;
+        AutoCompleteTextView autoCompleteProject;
         EditText editTextQty, editTextDescription;
         Button buttonSubmit;
         int DTLKEY; // Dtlkey value from DisplayDataActivity
@@ -35,7 +37,7 @@ namespace Xamarin_Scanner_example
 
             spinnerFrom = FindViewById<Spinner>(Resource.Id.spinnerFrom);
             spinnerTo = FindViewById<Spinner>(Resource.Id.spinnerTo);
-            spinnerProject = FindViewById<Spinner>(Resource.Id.spinnerProject);
+            autoCompleteProject = FindViewById<AutoCompleteTextView>(Resource.Id.autoCompleteProject);
             spinnerCompanyCode = FindViewById<Spinner>(Resource.Id.spinnerCompanyCode);
             editTextQty = FindViewById<EditText>(Resource.Id.editTextQty);
             editTextDescription = FindViewById<EditText>(Resource.Id.editTextDescription);
@@ -50,7 +52,8 @@ namespace Xamarin_Scanner_example
             // Set default values for EditText fields
             SetDefaultValues();
             SetUpSpinners();
-            SetUpProjectSpinners();
+            //SetUpProjectSpinners();
+            SetUpProjectAutoComplete();
             SetUpCompanyCodeSpinner();
 
             buttonSubmit.Click += ButtonSubmit_Click;
@@ -88,39 +91,69 @@ namespace Xamarin_Scanner_example
                     Toast.MakeText(this, "Failed to load locations", ToastLength.Short).Show();
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
             }
         }
 
-        private async void SetUpProjectSpinners()
+        //private async void SetUpProjectSpinners()
+        //{
+        //    try
+        //    {
+        //        var Project = await FetchProjectsFromApi();
+
+        //        if (Project != null)
+        //        {
+        //            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, Project);
+        //            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+
+        //            spinnerProject.Adapter = adapter;
+
+        //            // Set default values for spinners
+        //            int locationIndex = Project.IndexOf(PROJECT);
+        //            spinnerProject.SetSelection(Project.IndexOf("----"));
+        //        }
+        //        else
+        //        {
+        //            Toast.MakeText(this, "Failed to load Project", ToastLength.Short).Show();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+        //    }
+        //}
+
+        private async void SetUpProjectAutoComplete()
         {
             try
             {
-                var Project = await FetchProjectsFromApi();
+                var projects = await FetchProjectsFromApi();
 
-                if (Project != null)
+                if (projects != null)
                 {
-                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, Project);
-                    adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+                    var adapter = new ProjectAutoCompleteAdapter(this, projects);
+                    autoCompleteProject.Adapter = adapter;
 
-                    spinnerProject.Adapter = adapter;
-
-                    // Set default values for spinners
-                    int locationIndex = Project.IndexOf(PROJECT);
-                    spinnerProject.SetSelection(Project.IndexOf("----"));
+                    autoCompleteProject.ItemClick += (s, e) =>
+                    {
+                        var selectedProject = adapter.GetFilteredItem(e.Position);
+                        autoCompleteProject.Text = selectedProject;
+                        PROJECT = selectedProject;
+                    };
                 }
                 else
                 {
-                    Toast.MakeText(this, "Failed to load Project", ToastLength.Short).Show();
+                    Toast.MakeText(this, "Failed to load projects", ToastLength.Short).Show();
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
             }
         }
+
 
         private async void SetUpCompanyCodeSpinner()
         {
@@ -130,7 +163,9 @@ namespace Xamarin_Scanner_example
 
                 if (companyCodes != null)
                 {
-                    var adapter = new CompanyCodeAdapter(this, companyCodes);
+                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, companyCodes);
+                    adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+
                     spinnerCompanyCode.Adapter = adapter;
 
                     // Optionally, set a default selection
@@ -141,11 +176,12 @@ namespace Xamarin_Scanner_example
                     Toast.MakeText(this, "Failed to load company codes", ToastLength.Short).Show();
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
             }
         }
+
 
         private async Task<List<string>> FetchLocationsFromApi()
         {
@@ -177,7 +213,22 @@ namespace Xamarin_Scanner_example
             }
         }
 
-        private async Task<List<CompanyCode>> FetchCompanyCodesFromApi()
+        //private async Task<List<CompanyCode>> FetchCompanyCodesFromApi()
+        //{
+        //    string apiUrl = "http://169.254.176.239:5264/api/RawMaterial/GetCompanyCode";
+        //    using (HttpClient client = new HttpClient())
+        //    {
+        //        HttpResponseMessage response = await client.GetAsync(apiUrl);
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            string json = await response.Content.ReadAsStringAsync();
+        //            return JsonConvert.DeserializeObject<List<CompanyCode>>(json);
+        //        }
+        //        return null;
+        //    }
+        //}
+
+        private async Task<List<string>> FetchCompanyCodesFromApi()
         {
             string apiUrl = "http://169.254.176.239:5264/api/RawMaterial/GetCompanyCode";
             using (HttpClient client = new HttpClient())
@@ -186,58 +237,16 @@ namespace Xamarin_Scanner_example
                 if (response.IsSuccessStatusCode)
                 {
                     string json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<CompanyCode>>(json);
+                    var companyCodes = JsonConvert.DeserializeObject<List<CompanyCode>>(json);
+
+                    return companyCodes.Select(cc => $"{cc.Code} - {cc.CompanyName}").ToList();
                 }
                 return null;
             }
         }
 
-        //private async void ButtonSubmit_Click(object sender, EventArgs e)
-        //{
-        //    // Validate input
-        //    if (string.IsNullOrEmpty(editTextFrom.Text) ||
-        //        string.IsNullOrEmpty(editTextTo.Text) ||
-        //        string.IsNullOrEmpty(editTextQty.Text) ||
-        //        string.IsNullOrEmpty(editTextDescription.Text))
-        //    {
-        //        Toast.MakeText(this, "Please fill in all fields", ToastLength.Short).Show();
-        //        return;
-        //    }
 
-        //    // Parse quantity
-        //    if (!decimal.TryParse(editTextQty.Text, out decimal qty))
-        //    {
-        //        Toast.MakeText(this, "Invalid quantity", ToastLength.Short).Show();
-        //        return;
-        //    }
 
-        //    // Create object with input data
-        //    var checkoutData = new CheckoutData
-        //    {
-        //        Dtlkey = DTLKEY,
-        //        From = editTextFrom.Text,
-        //        To = editTextTo.Text,
-        //        Qty = qty,
-        //        Description = editTextDescription.Text
-        //    };
-
-        //    bool result = await SendDataToServer(checkoutData);
-
-        //    if (result)
-        //    {
-        //        Toast.MakeText(this, "Data submitted successfully", ToastLength.Short).Show();
-        //        // Optionally, you can navigate back to DisplayDataActivity or another activity
-        //        Finish(); // Finish current activity
-        //        Intent intent = new Intent(this, typeof(MainActivity));
-        //        StartActivity(intent);
-        //    }
-        //    else
-        //    {
-        //        //Toast.MakeText(this, "Failed to submit data", ToastLength.Short).Show();
-        //        Intent intent = new Intent(this, typeof(MainActivity));
-        //        StartActivity(intent);
-        //    }
-        //}
 
         private async void ButtonSubmit_Click(object sender, EventArgs e)
         {
@@ -258,7 +267,9 @@ namespace Xamarin_Scanner_example
 
             var from = spinnerFrom.SelectedItem.ToString();
             var to = spinnerTo.SelectedItem.ToString();
-            var selectedCompanyCode = spinnerCompanyCode.SelectedItem as CompanyCode;
+            var selectedCompanyCode = spinnerCompanyCode.SelectedItem.ToString();
+
+            string companyCode = selectedCompanyCode.Substring(0, System.Math.Min(9, selectedCompanyCode.Length));
 
             // Create object with input data
             var checkoutData = new CheckoutData
@@ -268,8 +279,8 @@ namespace Xamarin_Scanner_example
                 To = to,
                 Qty = qty,
                 Description = editTextDescription.Text,
-                Project = spinnerProject.SelectedItem.ToString(),
-                CompanyCode = selectedCompanyCode?.Code,
+                Project = autoCompleteProject.Text,
+                CompanyCode = companyCode,
             };
 
             // Create and show the loading dialog
@@ -294,7 +305,7 @@ namespace Xamarin_Scanner_example
                     ShowAlertDialog("Alert!", "Data Submission Failed!");
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 //Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
                 ShowAlertDialog("Alert!", "An error occurred: " + ex.Message);
@@ -330,7 +341,7 @@ namespace Xamarin_Scanner_example
                     return response.IsSuccessStatusCode;
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 ShowAlertDialog("Alert!", $"An Error occur: {ex.Message}");
@@ -372,37 +383,122 @@ namespace Xamarin_Scanner_example
         public string CompanyName { get; set; }
     }
 
-    public class CompanyCodeAdapter : BaseAdapter<CompanyCode>
-    {
-        private List<CompanyCode> items;
-        private Context context;
+    //public class CompanyCodeAdapter : BaseAdapter<CompanyCode>
+    //{
+    //    private List<CompanyCode> items;
+    //    private Context context;
 
-        public CompanyCodeAdapter(Context context, List<CompanyCode> items)
+    //    public CompanyCodeAdapter(Context context, List<CompanyCode> items)
+    //    {
+    //        this.context = context;
+    //        this.items = items;
+    //    }
+
+    //    public override CompanyCode this[int position] => items[position];
+
+    //    public override int Count => items.Count;
+
+    //    public override long GetItemId(int position) => position;
+
+    //    public override View GetView(int position, View convertView, ViewGroup parent)
+    //    {
+    //        var view = convertView ?? LayoutInflater.From(context).Inflate(Android.Resource.Layout.SimpleSpinnerItem, parent, false);
+    //        var codeTextView = view.FindViewById<TextView>(Android.Resource.Id.Text1);
+    //        codeTextView.Text = $"{items[position].Code} - {items[position].CompanyName}";
+    //        return view;
+    //    }
+
+    //    public override View GetDropDownView(int position, View convertView, ViewGroup parent)
+    //    {
+    //        var view = convertView ?? LayoutInflater.From(context).Inflate(Android.Resource.Layout.SimpleSpinnerDropDownItem, parent, false);
+    //        var codeTextView = view.FindViewById<TextView>(Android.Resource.Id.Text1);
+    //        codeTextView.Text = $"{items[position].Code} - {items[position].CompanyName}";
+    //        return view;
+    //    }
+    //}
+
+    public class ProjectAutoCompleteAdapter : ArrayAdapter<string>, IFilterable
+    {
+        private List<string> originalData;
+        private List<string> filteredData;
+        private Context context;
+        private Filter filter;
+
+        public ProjectAutoCompleteAdapter(Context context, List<string> data)
+            : base(context, Android.Resource.Layout.SimpleDropDownItem1Line, data)
         {
             this.context = context;
-            this.items = items;
+            this.originalData = new List<string>(data);
+            this.filteredData = new List<string>();
         }
 
-        public override CompanyCode this[int position] => items[position];
+        public override int Count => filteredData.Count;
 
-        public override int Count => items.Count;
-
-        public override long GetItemId(int position) => position;
+        public string GetFilteredItem(int position) => filteredData[position];
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            var view = convertView ?? LayoutInflater.From(context).Inflate(Android.Resource.Layout.SimpleSpinnerItem, parent, false);
-            var codeTextView = view.FindViewById<TextView>(Android.Resource.Id.Text1);
-            codeTextView.Text = $"{items[position].Code} - {items[position].CompanyName}";
+            var view = base.GetView(position, convertView, parent);
+            var textView = view.FindViewById<TextView>(Android.Resource.Id.Text1);
+            textView.Text = filteredData[position];
             return view;
         }
 
-        public override View GetDropDownView(int position, View convertView, ViewGroup parent)
+        public override Filter Filter
         {
-            var view = convertView ?? LayoutInflater.From(context).Inflate(Android.Resource.Layout.SimpleSpinnerDropDownItem, parent, false);
-            var codeTextView = view.FindViewById<TextView>(Android.Resource.Id.Text1);
-            codeTextView.Text = $"{items[position].Code} - {items[position].CompanyName}";
-            return view;
+            get
+            {
+                if (filter == null)
+                {
+                    filter = new ProjectFilter(this);
+                }
+                return filter;
+            }
+        }
+
+        private class ProjectFilter : Filter
+        {
+            private ProjectAutoCompleteAdapter adapter;
+
+            public ProjectFilter(ProjectAutoCompleteAdapter adapter)
+            {
+                this.adapter = adapter;
+            }
+
+            protected override FilterResults PerformFiltering(ICharSequence constraint)
+            {
+                var result = new FilterResults();
+                if (constraint != null)
+                {
+                    var filterString = constraint.ToString().ToLower();
+                    var matchList = new List<string>();
+
+                    foreach (var item in adapter.originalData)
+                    {
+                        if (item.ToLower().Contains(filterString))
+                        {
+                            matchList.Add(item);
+                        }
+                    }
+
+                    result.Values = matchList.ToArray();
+                    result.Count = matchList.Count;
+                }
+                return result;
+            }
+
+            protected override void PublishResults(ICharSequence constraint, FilterResults results)
+            {
+                adapter.filteredData.Clear();
+                if (results.Values != null)
+                {
+                    var values = results.Values.ToArray<string>();
+                    adapter.filteredData.AddRange(values);
+                }
+                adapter.NotifyDataSetChanged();
+            }
         }
     }
+
+
 }
