@@ -594,3 +594,9 @@ C:\Users\User\source\repos\Qr_Scanner\Xamarin_Scanner_example\obj\Debug\90\andro
 C:\Users\User\source\repos\Qr_Scanner\Xamarin_Scanner_example\obj\Debug\90\android\src\crc64238089920ed48059\CompanyCodeAdapter.java
 C:\Users\User\source\repos\Qr_Scanner\Xamarin_Scanner_example\obj\Debug\90\android\src\crc64238089920ed48059\ProjectAutoCompleteAdapter.java
 C:\Users\User\source\repos\Qr_Scanner\Xamarin_Scanner_example\obj\Debug\90\android\src\crc64238089920ed48059\ProjectAutoCompleteAdapter_ProjectFilter.java
+C:\Users\User\source\repos\Qr_Scanner\Xamarin_Scanner_example\obj\Debug\90\android\src\crc64238089920ed48059\JavaObjectWrapper_1.java
+C:\Users\User\source\repos\Qr_Scanner\Xamarin_Scanner_example\obj\Debug\90\android\src\crc64238089920ed48059\SearchableCompanyCodeAdapter.java
+C:\Users\User\source\repos\Qr_Scanner\Xamarin_Scanner_example\obj\Debug\90\android\src\crc64238089920ed48059\SearchableCompanyCodeAdapter_CompanyCodeFilter.java
+C:\Users\User\source\repos\Qr_Scanner\Xamarin_Scanner_example\obj\Debug\90\android\src\crc64238089920ed48059\SearchableCompanyCodeAdapter_CompanyCodeFilter_JavaObjectWrapper.java
+C:\Users\User\source\repos\Qr_Scanner\Xamarin_Scanner_example\obj\Debug\90\android\src\crc64238089920ed48059\SearchableSpinnerAdapter.java
+C:\Users\User\source\repos\Qr_Scanner\Xamarin_Scanner_example\obj\Debug\90\android\src\crc64238089920ed48059\SearchableSpinnerAdapter_SearchableSpinnerFilter.java

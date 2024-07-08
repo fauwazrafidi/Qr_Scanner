@@ -19,7 +19,8 @@ namespace Xamarin_Scanner_example
     [Activity(Label = "Return")]
     public class ReturnActivity : AppCompatActivity
     {
-        Spinner spinnerFrom, spinnerTo, /*spinnerProject,*/ spinnerCompanyCode;
+        Spinner spinnerFrom, spinnerTo, spinnerCompanyCode;
+        AutoCompleteTextView autoCompleteProject, autoCompleteCompanyCode;
         EditText editTextQty, editTextDescription;
         Button buttonSubmit;
         int DTLKEY; // Dtlkey value from DisplayDataActivity
@@ -35,8 +36,9 @@ namespace Xamarin_Scanner_example
 
             spinnerFrom = FindViewById<Spinner>(Resource.Id.spinnerFrom);
             spinnerTo = FindViewById<Spinner>(Resource.Id.spinnerTo);
-            //spinnerProject = FindViewById<Spinner>(Resource.Id.spinnerProject);
-            spinnerCompanyCode = FindViewById<Spinner>(Resource.Id.spinnerCompanyCode);
+            autoCompleteProject = FindViewById<AutoCompleteTextView>(Resource.Id.autoCompleteProject);
+            //spinnerCompanyCode = FindViewById<Spinner>(Resource.Id.spinnerCompanyCode);
+            autoCompleteCompanyCode = FindViewById<AutoCompleteTextView>(Resource.Id.autoCompleteCompanyCode);
             editTextQty = FindViewById<EditText>(Resource.Id.editTextQty);
             editTextDescription = FindViewById<EditText>(Resource.Id.editTextDescription);
             buttonSubmit = FindViewById<Button>(Resource.Id.buttonSubmit);
@@ -51,7 +53,9 @@ namespace Xamarin_Scanner_example
             SetDefaultValues();
             SetSpinnerValues();
             //SetUpProjectSpinners();
+            SetUpProjectAutoComplete();
             //SetUpCompanyCodeSpinner();
+            SetUpCompanyCodeAutoComplete();
 
             buttonSubmit.Click += ButtonSubmit_Click;
         }
@@ -90,6 +94,57 @@ namespace Xamarin_Scanner_example
                 Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
             }
 
+        }
+
+        private async void SetUpProjectAutoComplete()
+        {
+            try
+            {
+                var projects = await FetchProjectsFromApi();
+
+                if (projects != null)
+                {
+                    var adapter = new ProjectAutoCompleteAdapter(this, projects);
+                    autoCompleteProject.Adapter = adapter;
+
+                    autoCompleteProject.ItemClick += (s, e) =>
+                    {
+                        var selectedProject = adapter.GetFilteredItem(e.Position);
+                        autoCompleteProject.Text = selectedProject;
+                        PROJECT = selectedProject;
+                    };
+                }
+                else
+                {
+                    Toast.MakeText(this, "Failed to load projects", ToastLength.Short).Show();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+            }
+        }
+
+        private async void SetUpCompanyCodeAutoComplete()
+        {
+            try
+            {
+                var companyCodes = await FetchCompanyCodesFromApi();
+
+                if (companyCodes != null)
+                {
+                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleDropDownItem1Line, companyCodes);
+                    autoCompleteCompanyCode.Adapter = adapter;
+                }
+                else
+                {
+                    Toast.MakeText(this, "Failed to load company codes", ToastLength.Short).Show();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+            }
         }
 
         //private async void SetUpProjectSpinners()
@@ -175,7 +230,7 @@ namespace Xamarin_Scanner_example
             }
         }
 
-        private async Task<List<CompanyCode>> FetchCompanyCodesFromApi()
+        private async Task<List<string>> FetchCompanyCodesFromApi()
         {
             string apiUrl = "http://169.254.176.239:5264/api/RawMaterial/GetCompanyCode";
             using (HttpClient client = new HttpClient())
@@ -184,7 +239,9 @@ namespace Xamarin_Scanner_example
                 if (response.IsSuccessStatusCode)
                 {
                     string json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<CompanyCode>>(json);
+                    var companyCodes = JsonConvert.DeserializeObject<List<CompanyCode>>(json);
+
+                    return companyCodes.Select(cc => $"{cc.Code} - {cc.CompanyName}").ToList();
                 }
                 return null;
             }
@@ -256,18 +313,24 @@ namespace Xamarin_Scanner_example
                 return;
             }
 
-            var selectedCompanyCode = spinnerCompanyCode.SelectedItem as CompanyCode;
+            var from = spinnerFrom.SelectedItem.ToString();
+            var to = spinnerTo.SelectedItem.ToString();
+            //var selectedCompanyCode = spinnerCompanyCode.SelectedItem.ToString();
+            var selectedCompanyCode = autoCompleteCompanyCode.Text;
+
+
+            string companyCode = selectedCompanyCode.Substring(0, System.Math.Min(9, selectedCompanyCode.Length));
 
             // Create object with input data
             var returnData = new ReturnData
             {
                 Dtlkey = DTLKEY,
-                From = spinnerFrom.SelectedItem.ToString(),
-                To = spinnerTo.SelectedItem.ToString(),
+                From = from,
+                To = to,
                 Qty = qty,
                 Description = editTextDescription.Text,
-                //Project = spinnerProject.SelectedItem.ToString(),
-                CompanyCode = selectedCompanyCode?.Code,
+                Project = autoCompleteProject.Text,
+                CompanyCode = companyCode,
             };
 
             // Create and show the loading dialog

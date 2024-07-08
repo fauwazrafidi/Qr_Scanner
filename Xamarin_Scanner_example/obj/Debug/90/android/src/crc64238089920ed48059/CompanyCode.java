@@ -10,7 +10,6 @@ public class CompanyCode
 	public static final String __md_methods;
 	static {
 		__md_methods = 
-			"n_toString:()Ljava/lang/String;:GetToStringHandler\n" +
 			"";
 		mono.android.Runtime.register ("Xamarin_Scanner_example.CompanyCode, Xamarin_Scanner_example", CompanyCode.class, __md_methods);
 	}
@@ -23,14 +22,6 @@ public class CompanyCode
 			mono.android.TypeManager.Activate ("Xamarin_Scanner_example.CompanyCode, Xamarin_Scanner_example", "", this, new java.lang.Object[] {  });
 		}
 	}
-
-
-	public java.lang.String toString ()
-	{
-		return n_toString ();
-	}
-
-	private native java.lang.String n_toString ();
 
 	private java.util.ArrayList refList;
 	public void monodroidAddReference (java.lang.Object obj)

@@ -21,7 +21,7 @@ namespace Xamarin_Scanner_example
     public class CheckoutActivity : AppCompatActivity
     {
         Spinner spinnerFrom, spinnerTo, spinnerCompanyCode;
-        AutoCompleteTextView autoCompleteProject;
+        AutoCompleteTextView autoCompleteProject, autoCompleteCompanyCode;
         EditText editTextQty, editTextDescription;
         Button buttonSubmit;
         int DTLKEY; // Dtlkey value from DisplayDataActivity
@@ -38,7 +38,8 @@ namespace Xamarin_Scanner_example
             spinnerFrom = FindViewById<Spinner>(Resource.Id.spinnerFrom);
             spinnerTo = FindViewById<Spinner>(Resource.Id.spinnerTo);
             autoCompleteProject = FindViewById<AutoCompleteTextView>(Resource.Id.autoCompleteProject);
-            spinnerCompanyCode = FindViewById<Spinner>(Resource.Id.spinnerCompanyCode);
+            //spinnerCompanyCode = FindViewById<Spinner>(Resource.Id.spinnerCompanyCode);
+            autoCompleteCompanyCode = FindViewById<AutoCompleteTextView>(Resource.Id.autoCompleteCompanyCode);
             editTextQty = FindViewById<EditText>(Resource.Id.editTextQty);
             editTextDescription = FindViewById<EditText>(Resource.Id.editTextDescription);
             buttonSubmit = FindViewById<Button>(Resource.Id.buttonSubmit);
@@ -54,7 +55,9 @@ namespace Xamarin_Scanner_example
             SetUpSpinners();
             //SetUpProjectSpinners();
             SetUpProjectAutoComplete();
-            SetUpCompanyCodeSpinner();
+            //SetUpCompanyCodeSpinner();
+            SetUpCompanyCodeAutoComplete();
+
 
             buttonSubmit.Click += ButtonSubmit_Click;
         }
@@ -155,7 +158,34 @@ namespace Xamarin_Scanner_example
         }
 
 
-        private async void SetUpCompanyCodeSpinner()
+        //private async void SetUpCompanyCodeSpinner()
+        //{
+        //    try
+        //    {
+        //        var companyCodes = await FetchCompanyCodesFromApi();
+
+        //        if (companyCodes != null)
+        //        {
+        //            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, companyCodes);
+        //            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+
+        //            spinnerCompanyCode.Adapter = adapter;
+
+        //            // Optionally, set a default selection
+        //            spinnerCompanyCode.SetSelection(0);
+        //        }
+        //        else
+        //        {
+        //            Toast.MakeText(this, "Failed to load company codes", ToastLength.Short).Show();
+        //        }
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+        //    }
+        //}
+
+        private async void SetUpCompanyCodeAutoComplete()
         {
             try
             {
@@ -163,13 +193,8 @@ namespace Xamarin_Scanner_example
 
                 if (companyCodes != null)
                 {
-                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, companyCodes);
-                    adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-
-                    spinnerCompanyCode.Adapter = adapter;
-
-                    // Optionally, set a default selection
-                    spinnerCompanyCode.SetSelection(0);
+                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleDropDownItem1Line, companyCodes);
+                    autoCompleteCompanyCode.Adapter = adapter;
                 }
                 else
                 {
@@ -181,6 +206,7 @@ namespace Xamarin_Scanner_example
                 Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
             }
         }
+
 
 
         private async Task<List<string>> FetchLocationsFromApi()
@@ -267,7 +293,9 @@ namespace Xamarin_Scanner_example
 
             var from = spinnerFrom.SelectedItem.ToString();
             var to = spinnerTo.SelectedItem.ToString();
-            var selectedCompanyCode = spinnerCompanyCode.SelectedItem.ToString();
+            //var selectedCompanyCode = spinnerCompanyCode.SelectedItem.ToString();
+            var selectedCompanyCode = autoCompleteCompanyCode.Text;
+
 
             string companyCode = selectedCompanyCode.Substring(0, System.Math.Min(9, selectedCompanyCode.Length));
 

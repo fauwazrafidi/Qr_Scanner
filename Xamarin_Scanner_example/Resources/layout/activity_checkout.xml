@@ -51,19 +51,19 @@
         android:layout_height="wrap_content"
         android:text="COMPANY CODE:" 
         android:layout_below="@+id/autoCompleteProject"/>
-    <Spinner
-        android:id="@+id/spinnerCompanyCode"
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteCompanyCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView6"
-        android:layout_marginBottom="16dp" />
-
+        android:layout_marginBottom="16dp"
+        android:hint="Select Company Code"/>
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="QUANTITY:" 
-        android:layout_below="@id/spinnerCompanyCode"/>
+        android:layout_below="@id/autoCompleteCompanyCode"/>
     <EditText
         android:id="@+id/editTextQty"
         android:layout_width="match_parent"
