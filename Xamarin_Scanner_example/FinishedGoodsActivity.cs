@@ -23,7 +23,8 @@ namespace Xamarin_Scanner_example
     public class FinishedGoodsActivity : AppCompatActivity
     {
         private ScanManager mScanManager;
-        Spinner spinnerCustomer;
+        //Spinner spinnerCustomer;
+        AutoCompleteTextView autoCompleteCustomer;
         TextView dataTextView_Operation, dataTextView_OperationOperation, dataTextView_orderArticle;
         EditText dataEditText_orderUserfield65;
         Button buttonFinishedGoods;
@@ -42,14 +43,16 @@ namespace Xamarin_Scanner_example
             dataTextView_OperationOperation = FindViewById<TextView>(Resource.Id.dataTextView_OperationOperation);
             dataTextView_orderArticle = FindViewById<TextView>(Resource.Id.dataTextView_orderArticle);
             dataEditText_orderUserfield65 = FindViewById<EditText>(Resource.Id.dataEditText_orderUserfield65);
-            spinnerCustomer = FindViewById<Spinner>(Resource.Id.spinnerCustomer);
+            //spinnerCustomer = FindViewById<Spinner>(Resource.Id.spinnerCustomer);
+            autoCompleteCustomer = FindViewById<AutoCompleteTextView>(Resource.Id.autoCompleteCustomer);
 
             buttonFinishedGoods = FindViewById<Button>(Resource.Id.buttonFinishedGoods);
             buttonFinishedGoods.Click += ButtonFinishedGoods_Click;
 
             string scanResultUrl = Intent.GetStringExtra("ScanResultUrl");
 
-            SetUpSpinners();
+            //SetUpSpinners();
+            SetUpCustomerAutoComplete();
 
             if (!string.IsNullOrEmpty(scanResultUrl))
             {
@@ -64,29 +67,57 @@ namespace Xamarin_Scanner_example
         private string _orderArticle;
         private int _orderUserfield65;
 
-        private async void SetUpSpinners()
+        //private async void SetUpSpinners()
+        //{
+        //    try
+        //    {
+        //        var customer = await FetchCustomersFromApi();
+
+        //        if (customer != null)
+        //        {
+        //            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, customer);
+        //            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+
+        //            spinnerCustomer.Adapter = adapter;
+
+        //            // Set default values for spinners
+        //            int customerIndex = customer.IndexOf(CUSTOMER);
+        //            spinnerCustomer.SetSelection(customer.IndexOf("----"));
+        //        }
+        //        else
+        //        {
+        //            Toast.MakeText(this, "Failed to load locations", ToastLength.Short).Show();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
+        //    }
+        //}
+
+        private async void SetUpCustomerAutoComplete()
         {
             try
             {
-                var customer = await FetchCustomersFromApi();
+                var projects = await FetchCustomersFromApi();
 
-                if (customer != null)
+                if (projects != null)
                 {
-                    var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, customer);
-                    adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+                    var adapter = new ProjectAutoCompleteAdapter(this, projects);
+                    autoCompleteCustomer.Adapter = adapter;
 
-                    spinnerCustomer.Adapter = adapter;
-
-                    // Set default values for spinners
-                    int customerIndex = customer.IndexOf(CUSTOMER);
-                    spinnerCustomer.SetSelection(customer.IndexOf("----"));
+                    autoCompleteCustomer.ItemClick += (s, e) =>
+                    {
+                        var selectedCustomer = adapter.GetFilteredItem(e.Position);
+                        autoCompleteCustomer.Text = selectedCustomer;
+                    };
                 }
                 else
                 {
-                    Toast.MakeText(this, "Failed to load locations", ToastLength.Short).Show();
+                    Toast.MakeText(this, "Failed to load projects", ToastLength.Short).Show();
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
             }
@@ -187,7 +218,8 @@ namespace Xamarin_Scanner_example
                 OperationOperation = _OperationOperation,
                 orderArticle = _orderArticle,
                 orderUserfield65 = qty,
-                Customer = spinnerCustomer.SelectedItem.ToString(),
+                //Customer = spinnerCustomer.SelectedItem.ToString(),
+                Customer = autoCompleteCustomer.Text,
             };
 
             

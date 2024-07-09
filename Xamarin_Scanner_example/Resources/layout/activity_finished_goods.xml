@@ -78,12 +78,20 @@
         android:textColor="#000000"
         android:textStyle="bold"
         android:textSize="18sp" />
-    <Spinner
+    <!--<Spinner
         android:id="@+id/spinnerCustomer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dataCustomerView"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"/>-->
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteCustomer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dataCustomerView"
+        android:layout_marginBottom="16dp"
+        android:hint="Select Customer"/>
 
     <LinearLayout
         android:id="@+id/buttonLayout"
