@@ -23,7 +23,6 @@ namespace Xamarin_Scanner_example
     public class FinishedGoodsActivity : AppCompatActivity
     {
         private ScanManager mScanManager;
-        //Spinner spinnerCustomer;
         AutoCompleteTextView autoCompleteCustomer;
         TextView dataTextView_Operation, dataTextView_OperationOperation, dataTextView_orderArticle;
         EditText dataEditText_orderUserfield65;
@@ -38,12 +37,10 @@ namespace Xamarin_Scanner_example
             mScanManager = new ScanManager();
             mScanManager.StopDecode();
 
-            //dataTextView = FindViewById<TextView>(Resource.Id.dataTextView);
             dataTextView_Operation = FindViewById<TextView>(Resource.Id.dataTextView_Operation);
             dataTextView_OperationOperation = FindViewById<TextView>(Resource.Id.dataTextView_OperationOperation);
             dataTextView_orderArticle = FindViewById<TextView>(Resource.Id.dataTextView_orderArticle);
             dataEditText_orderUserfield65 = FindViewById<EditText>(Resource.Id.dataEditText_orderUserfield65);
-            //spinnerCustomer = FindViewById<Spinner>(Resource.Id.spinnerCustomer);
             autoCompleteCustomer = FindViewById<AutoCompleteTextView>(Resource.Id.autoCompleteCustomer);
 
             buttonFinishedGoods = FindViewById<Button>(Resource.Id.buttonFinishedGoods);
@@ -51,7 +48,7 @@ namespace Xamarin_Scanner_example
 
             string scanResultUrl = Intent.GetStringExtra("ScanResultUrl");
 
-            //SetUpSpinners();
+            
             SetUpCustomerAutoComplete();
 
             if (!string.IsNullOrEmpty(scanResultUrl))
@@ -67,33 +64,6 @@ namespace Xamarin_Scanner_example
         private string _orderArticle;
         private int _orderUserfield65;
 
-        //private async void SetUpSpinners()
-        //{
-        //    try
-        //    {
-        //        var customer = await FetchCustomersFromApi();
-
-        //        if (customer != null)
-        //        {
-        //            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, customer);
-        //            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-
-        //            spinnerCustomer.Adapter = adapter;
-
-        //            // Set default values for spinners
-        //            int customerIndex = customer.IndexOf(CUSTOMER);
-        //            spinnerCustomer.SetSelection(customer.IndexOf("----"));
-        //        }
-        //        else
-        //        {
-        //            Toast.MakeText(this, "Failed to load locations", ToastLength.Short).Show();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
-        //    }
-        //}
 
         private async void SetUpCustomerAutoComplete()
         {
@@ -239,20 +209,16 @@ namespace Xamarin_Scanner_example
                 }
                 else
                 {
-                    //// Optionally, handle failure
-                    //Intent intent = new Intent(this, typeof(MainActivity));
-                    //StartActivity(intent);
+
                     ShowAlertDialog("Alert!", "Data Submission Failed!");
                 }
             }
             catch (Exception ex)
             {
-                //Toast.MakeText(this, "An error occurred: " + ex.Message, ToastLength.Short).Show();
                 ShowAlertDialog("Alert!", "An error occurred: " + ex.Message);
             }
             finally
             {
-                // Dismiss the loading dialog
                 progressDialog.Dismiss();
             }
         }
@@ -270,52 +236,6 @@ namespace Xamarin_Scanner_example
             dialogBuilder.Show();
         }
 
-        //private void ShowWarningDialog(string title, string message)
-        //{
-        //    Android.Support.V7.App.AlertDialog.Builder dialogBuilder = new Android.Support.V7.App.AlertDialog.Builder(this);
-        //    dialogBuilder.SetTitle(title);
-        //    dialogBuilder.SetMessage(message);
-        //    dialogBuilder.SetPositiveButton("Yes", async (sender, args) =>
-        //    {
-        //        // Perform the intended action
-        //        bool state = await CheckoutAndIn();
-        //        if (state)
-        //        {
-        //            Intent intent = new Intent(this, typeof(MainActivity));
-        //            StartActivity(intent);
-        //        }
-        //        else
-        //        {
-        //            ShowAlertDialog("Alert", "Checkin/Checkout has Failed");
-        //        }
-        //    });
-        //    dialogBuilder.SetNegativeButton("No", (sender, args) =>
-        //    {
-        //        Intent intent = new Intent(this, typeof(MainActivity));
-        //        StartActivity(intent);
-        //    });
-        //    dialogBuilder.Show();
-        //}
-
-
-        //private async Task<bool> CheckoutAndIn()
-        //{
-        //    string apiUrl = $"http://169.254.176.239:5111/api/qrcodescan/{Id}/checkin";
-        //    using (HttpClient client = new HttpClient())
-        //    {
-        //        HttpResponseMessage response = await client.GetAsync(apiUrl);
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            string result = await response.Content.ReadAsStringAsync();
-        //            return true;
-        //        }
-        //        else
-        //        {
-        //            // Handle the error (log it, display a message, etc.)
-        //            return false;
-        //        }
-        //    }
-        //}
 
         private void DisplayData(ApiResponse data)
         {

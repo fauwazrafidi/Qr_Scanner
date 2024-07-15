@@ -284,11 +284,11 @@ namespace Xamarin_Scanner_example
             public string Batch { get; set; }
             public string Project { get; set; }
             public string Location { get; set; }
-            public int Receiveqty { get; set; }
-            public int Returnqty { get; set; }
-            public int Qty { get; set; }
+            public decimal Receiveqty { get; set; }
+            public decimal Returnqty { get; set; }
+            public decimal Qty { get; set; }
             public string Uom { get; set; }
-            public int Qtyremain { get; set; }
+            public decimal Qtyremain { get; set; }
             public DateTime Docdate { get; set; }
             public string Docno { get; set; }
         }

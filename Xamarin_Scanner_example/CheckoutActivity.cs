@@ -24,7 +24,7 @@ namespace Xamarin_Scanner_example
         AutoCompleteTextView autoCompleteProject, autoCompleteCompanyCode;
         EditText editTextQty, editTextDescription;
         Button buttonSubmit;
-        int DTLKEY; // Dtlkey value from DisplayDataActivity
+        int DTLKEY;
         string ITEMCODE;
         string DESCRIPTION;
         string LOCATION;
@@ -38,7 +38,6 @@ namespace Xamarin_Scanner_example
             spinnerFrom = FindViewById<Spinner>(Resource.Id.spinnerFrom);
             spinnerTo = FindViewById<Spinner>(Resource.Id.spinnerTo);
             autoCompleteProject = FindViewById<AutoCompleteTextView>(Resource.Id.autoCompleteProject);
-            //spinnerCompanyCode = FindViewById<Spinner>(Resource.Id.spinnerCompanyCode);
             autoCompleteCompanyCode = FindViewById<AutoCompleteTextView>(Resource.Id.autoCompleteCompanyCode);
             editTextQty = FindViewById<EditText>(Resource.Id.editTextQty);
             editTextDescription = FindViewById<EditText>(Resource.Id.editTextDescription);
@@ -53,7 +52,6 @@ namespace Xamarin_Scanner_example
             // Set default values for EditText fields
             SetDefaultValues();
             SetUpSpinners();
-            //SetUpProjectSpinners();
             SetUpProjectAutoComplete();
             //SetUpCompanyCodeSpinner();
             SetUpCompanyCodeAutoComplete();
