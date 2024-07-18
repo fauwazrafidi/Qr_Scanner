@@ -29,6 +29,7 @@ namespace Xamarin_Scanner_example
         string DESCRIPTION;
         string LOCATION;
         string PROJECT;
+        string responseContent;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -328,7 +329,7 @@ namespace Xamarin_Scanner_example
                     //// Optionally, handle failure
                     //Intent intent = new Intent(this, typeof(MainActivity));
                     //StartActivity(intent);
-                    ShowAlertDialog("Alert!", "Data Submission Failed!");
+                    ShowAlertDialog("Alert!", $"Data Submission Failed! {responseContent}");
                 }
             }
             catch (System.Exception ex)
@@ -354,6 +355,7 @@ namespace Xamarin_Scanner_example
                     string json = JsonConvert.SerializeObject(checkoutData);
                     StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                     HttpResponseMessage response = await client.PostAsync(apiUrl1, content);
+                    responseContent = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
                     {
